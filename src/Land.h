@@ -8,19 +8,23 @@
 #ifndef LAND_H_
 #define LAND_H_
 
+#include "Player.h"
+
 class Land {
-	Land *confining[16];
-	int troops=0;
-	Player *owner=0;
+	Player* owner;
+	int troops;
+	Land** confining;
 public:
 	Land();
+	Land(Land* list[]);
 	virtual ~Land();
-	Player getOwner();
-	Land *nearTo();
-	bool nearTo(Land that);
+	Player* getOwner();
+	Land** nearTo();
+	bool nearTo(Land* that);
 	int putTroops(int many);
-	int attack(Land defender, int troops);
+	int attack(Land* defender, int troops);
 	int defend(Player *attacker, int attacking);
+	void addNear(Land* newNear);
 };
 
 #endif /* LAND_H_ */
