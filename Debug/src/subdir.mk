@@ -4,16 +4,19 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 CPP_SRCS += \
+../src/HumanPlayer.cpp \
 ../src/Land.cpp \
 ../src/Player.cpp \
 ../src/RisikoAI.cpp 
 
 OBJS += \
+./src/HumanPlayer.o \
 ./src/Land.o \
 ./src/Player.o \
 ./src/RisikoAI.o 
 
 CPP_DEPS += \
+./src/HumanPlayer.d \
 ./src/Land.d \
 ./src/Player.d \
 ./src/RisikoAI.d 

@@ -5,15 +5,13 @@
  *      Author: david
  */
 
-#include <cstdlib>
-
 #include "Player.h"
 
 using std::string;
 using std::cout;
 using std::endl;
 
-Player::Player(string namer) :name(namer), land(0), ownedlands(0), troopPool(0) {
+Player::Player(string namer) : name(namer), land(0), ownedlands(0), troopPool(0) {
 
 }
 
@@ -32,8 +30,11 @@ void Player::attack(Land* from, Land* to) {
 		cout << "Can't attack." << endl;
 		return;
 	}
+	cout << name << " is attacking " << to->getName() << " from " << from->getName() << "!" << endl;
 	from->attack(to);
+	cout << from->getName() << " now has " << from->putTroops(0) << " troops. " << to->getName() << " has " << to->putTroops(0) << "." << endl;
 	if(!to->putTroops(0)) {
+		cout << name << " is taking " << to->getName() << " as its own!" << endl;;
 		takeLand(to);
 	}
 }
@@ -60,23 +61,27 @@ int Player::putTroops(Land* land, int n) {
 }
 
 void Player::takeLand(Land* newLand) {
-	cout << "is the problem has?";
 
 	if(has(newLand)) {
 		cout << getName() << " owns this already!" <<endl;
 		return;
 	}
-	cout << "is the problem has?";
-	Land* pointer = land;
-	while(pointer) {
-		cout <<"increasing pointer" << endl;
-		pointer=pointer->next();
+
+	if (land==0) {
+		land = newLand;
+	} else {
+		Land* pointer = land;
+		while (pointer->next()) {
+			pointer = pointer->next();
+		}
+		pointer->setNext(newLand);
 	}
-	Land* broken = pointer->next();
-	pointer->setNext(newLand);
-	newLand->getOwner()->removeLand(newLand);
+
+	if (newLand->getOwner()) {
+		newLand->getOwner()->removeLand(newLand);
+	}
+
 	newLand->setOwner(this);
-	newLand->setNext(broken);
 }
 
 void Player::removeLand(Land* thisLand) {
@@ -94,15 +99,12 @@ void Player::removeLand(Land* thisLand) {
 }
 
 bool Player::has(Land* thisLand) {
-	cout << "is the problem has?";
 	Land* i=land;
 	int t=0;
 	while(i){
-		cout << "is the problem has?";
 		t = (i==thisLand);
 		i = i->next();
 	}
-	cout << "is the problem solved?";
 	return t;
 }
 

@@ -48,7 +48,7 @@ bool Land::nearTo(Land* that) {//Checks if "that" is near to this land
 }
 
 void Land::addNear(Land* newNear) {
-	if (this==newNear) { cout << "Is it near itself? :P" << endl; return; }
+	if (this==newNear) { cout << "How is it near itself? :P" << endl; return; }
 	if (nearTo(newNear)) { cout << "Already near." << endl; return; }
 
 	int i=0;
@@ -151,7 +151,7 @@ int Land::defend(int attacking) {//resolves fight, removes required number of tr
 				break;
 	}
 
-	cout << "Attacker lost: " << o << "troops. Defender has now: " << this->putTroops(0) << endl;
+	cout << "Attacker lost: " << o << "troops. Defender has now: " << this->putTroops(0) << " troops remaining." << endl;
 	return o;
 }
 
@@ -165,6 +165,7 @@ void Land::setOwner(Player* newOwner) {
 void Land::setNext(Land* newNext) {
 	nextLand = newNext;
 }
+
 
 Land* Land::next() {
 	return nextLand;

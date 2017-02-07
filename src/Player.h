@@ -14,7 +14,7 @@
 using std::string;
 
 class Player {
-private:
+protected:
 	string name;
 	Land* land;
 	int ownedlands;
@@ -30,6 +30,13 @@ public:
 	void takeLand(Land* newLand);
 	void removeLand(Land* thisLand);
 	bool has(Land* thisLand);
+
+	virtual void putTroops() {
+		return;
+	}
+	virtual void makeTurn() {
+		return;
+	}
 };
 
 
