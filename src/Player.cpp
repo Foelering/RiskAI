@@ -67,9 +67,11 @@ int Player::putTroops(Land* land, int n) {
 void Player::takeLand(Land* newLand) {
 
 	if(has(newLand)) {
-		cout << getName() << " owns this already!" <<endl;
+		cout << getName() << " owns " << newLand->getName() << " already!" <<endl;
 		return;
 	}
+	
+	newLand->setNext(0);
 
 	if (land==0) {
 		land = newLand;

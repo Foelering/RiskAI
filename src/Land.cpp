@@ -19,10 +19,9 @@ Land::Land(string name) : name(name), troops(1), owner(0), nextLand(NULL){
 	++numberoflands;
 }
 
-Land::Land(string name, Land* asNext): name(name), troops(1), owner(0), nextLand(NULL) {
+Land::Land(string name, Land* asNext): name(name), troops(1), owner(0), nextLand(asNext) {
 	confining = new Land* [15];
 	confining[0] = NULL;
-	next = asNext;
 	++numberoflands;
 }
 
@@ -61,7 +60,6 @@ void Land::addNear(Land* newNear) {
 
 	int i=0;
 	while(confining[i]){
-		cout << "i++" << i;
 		i++;
 	}
 	confining[i] = newNear;

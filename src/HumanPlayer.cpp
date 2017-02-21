@@ -28,7 +28,7 @@ void HumanPlayer::makeTurn() {
 		cout << "Where do you want to put these " << troopPool << " troops? Available options are:\n";
 		int i = 1, l=0, n=1;
 		Land* pointer;
-		for (pointer = land; pointer->next(); pointer=pointer->next()) {
+		for (pointer = land; pointer; pointer=pointer->next()) {
 			cout << "\t" << i << ". " << pointer->getName() << endl;
 			i++;
 		}
