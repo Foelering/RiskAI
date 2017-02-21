@@ -111,26 +111,81 @@ Land* generateLands() {
 	(landlist+4)->addNear(landlist+3);
 	(landlist+4)->addNear(landlist+5);
 	(landlist+4)->addNear(landlist+6);
+	(landlist+5)->addNear(landlist+7);
+	(landlist+5)->addNear(landlist+34);
 	(landlist+6)->addNear(landlist+5);
 	(landlist+6)->addNear(landlist+7);
 	(landlist+6)->addNear(landlist+8);
 	(landlist+6)->addNear(landlist+9);
 	(landlist+6)->addNear(landlist+12);
+	(landlist+7)->addNear(landlist+8);
+	(landlist+7)->addNear(landlist+35);
+	(landlist+8)->addNear(landlist+9);
+	(landlist+8)->addNear(landlist+35);
+	(landlist+9)->addNear(landlist+10);
+	(landlist+9)->addNear(landlist+11);
+	(landlist+9)->addNear(landlist+12);
+	(landlist+10)->addNear(landlist+11);
+	(landlist+10)->addNear(landlist+14);
+	(landlist+11)->addNear(landlist+12);
+	(landlist+11)->addNear(landlist+13);
+	(landlist+13)->addNear(landlist+14);
+	(landlist+14)->addNear(landlist+15);
+	(landlist+15)->addNear(landlist+16);
+	(landlist+15)->addNear(landlist+20);
+	(landlist+16)->addNear(landlist+17);
+	(landlist+16)->addNear(landlist+19);
+	(landlist+16)->addNear(landlist+20);
+	(landlist+17)->addNear(landlist+18);
+	(landlist+17)->addNear(landlist+19);
+	(landlist+17)->addNear(landlist+37);
+	(landlist+18)->addNear(landlist+19);
+	(landlist+18)->addNear(landlist+22);
+	(landlist+19)->addNear(landlist+20);
+	(landlist+19)->addNear(landlist+21);
+	(landlist+19)->addNear(landlist+22);
+	(landlist+20)->addNear(landlist+21);
+	(landlist+21)->addNear(landlist+22);
+	(landlist+21)->addNear(landlist+23);
+	(landlist+22)->addNear(landlist+23);
+	(landlist+23)->addNear(landlist+24);
+	(landlist+24)->addNear(landlist+25);
+	(landlist+24)->addNear(landlist+27);
+	(landlist+25)->addNear(landlist+26);
+	(landlist+25)->addNear(landlist+27);
+	(landlist+26)->addNear(landlist+27);
+	(landlist+27)->addNear(landlist+28);
+	(landlist+28)->addNear(landlist+29);
+	(landlist+28)->addNear(landlist+32);
+	(landlist+28)->addNear(landlist+33);
+	(landlist+28)->addNear(landlist+39);
+	(landlist+28)->addNear(landlist+40);
+	(landlist+29)->addNear(landlist+30);
+	(landlist+29)->addNear(landlist+32);
+	(landlist+30)->addNear(landlist+31);
+	(landlist+31)->addNear(landlist+32);
+	(landlist+32)->addNear(landlist+33);
+	(landlist+32)->addNear(landlist+34);
+	(landlist+33)->addNear(landlist+34);
+	(landlist+33)->addNear(landlist+40);
+	(landlist+34)->addNear(landlist+35);
+	(landlist+34)->addNear(landlist+40);
+	(landlist+35)->addNear(landlist+36);
+	(landlist+35)->addNear(landlist+40);
+	(landlist+35)->addNear(landlist+41);
+	(landlist+36)->addNear(landlist+37);
+	(landlist+36)->addNear(landlist+38);
+	(landlist+36)->addNear(landlist+41);
+	(landlist+37)->addNear(landlist+38);
+	(landlist+38)->addNear(landlist+39);
+	(landlist+38)->addNear(landlist+41);
+	
 	
 	int n = landlist->getLandNumber();
 	
 	for (int i = 0; n-1-i; i++) {
 		(landlist+i)->setNext(landlist+i+1);
 	}
-	
-//	landlist[1].addNear(landlist);
-//	landlist[2].setName("New Guinea");
-//	landlist[2].addNear(landlist);
-//	landlist[2].addNear(landlist+1);
-//	landlist[3].setName("Indonesia");
-//	landlist[3].addNear(landlist+2);
-//	landlist[3].addNear(landlist+1);
-//	landlist+4 = 0;
 
 	return landlist;
 }
