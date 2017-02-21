@@ -11,7 +11,11 @@ using std::string;
 using std::cout;
 using std::endl;
 
-Player::Player(string namer) : name(namer), land(0), ownedlands(0), troopPool(0) {
+Player::Player(string namer, Player* next) : name(namer), land(0), ownedlands(0), troopPool(0), nextPlayer(next) {
+
+}
+
+Player::Player() : name("Default"), land(0), ownedlands(0), troopPool(0), nextPlayer(0) {
 
 }
 
@@ -82,20 +86,33 @@ void Player::takeLand(Land* newLand) {
 	}
 
 	newLand->setOwner(this);
+	cout << getName() << " has taken control of " << newLand->getName() << endl;
+
+	ownedlands++;
 }
 
 void Player::removeLand(Land* thisLand) {
-	if(land==thisLand){
-		land = land->next();
+	if(!has(thisLand)) {
+		cout << "Player " << getName() << " already owns " << thisLand->getName() << "!" << endl;
 		return;
 	}
 
-	Land* i;
+	if(land==thisLand){
+		land = land->next();
+		thisLand->setNext(0);
+	} else {
 
-	for(i=land; i; i=i->next()) {
-		if(i->next()==thisLand) { break; }
+		Land* i;
+
+		for(i=land; i; i=i->next()) {
+			if(i->next()==thisLand) { break; }
+		}
+		i->setNext(thisLand->next());
+		thisLand->setNext(0);
+
 	}
-	i->setNext(thisLand->next());
+
+	ownedlands--;
 }
 
 bool Player::has(Land* thisLand) {

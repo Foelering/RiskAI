@@ -19,8 +19,11 @@ protected:
 	Land* land;
 	int ownedlands;
 	int troopPool;
+	Player* nextPlayer;
+
 public:
-	Player(string namer);
+	Player();
+	Player(string namer, Player* next);
 	virtual ~Player();
 	string getName();
 	void attack(Land* from, Land* to);
@@ -31,11 +34,24 @@ public:
 	void removeLand(Land* thisLand);
 	bool has(Land* thisLand);
 
+	Player* next() {
+		return nextPlayer;
+	}
+
+	void setNext(Player* newNext) {
+		nextPlayer = newNext;
+	}
+
 	virtual void putTroops() {
 		return;
 	}
+
 	virtual void makeTurn() {
 		return;
+	}
+
+	bool checkWinCondition() {
+		return ownedlands>24;
 	}
 };
 

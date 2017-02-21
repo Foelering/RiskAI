@@ -11,28 +11,36 @@
 
 using namespace std;
 
-Land::Land(string name) : name(name), troops(0), owner(0), nextLand(NULL){
+unsigned int Land::numberoflands = 0;
+
+Land::Land(string name) : name(name), troops(1), owner(0), nextLand(NULL){
 	confining = new Land* [15];
 	confining[0] = NULL;
+	++numberoflands;
 }
 
-Land::Land(string name, Land* list[]): name(name), troops(0), owner(0), nextLand(NULL) {
+Land::Land(string name, Land* asNext): name(name), troops(1), owner(0), nextLand(NULL) {
 	confining = new Land* [15];
-	int i;
-	for(i=0 ; list[i]!=NULL && i<15 ; i++){
-		confining[i]=list[i];
-		confining[i]->addNear(this);
-	}
-	i++;
-	confining[i]=NULL;
+	confining[0] = NULL;
+	next = asNext;
+	++numberoflands;
 }
 
 Land::~Land() {
+	--numberoflands;
 	delete [] confining;
 }
 
 string Land::getName() {
 	return name;
+}
+
+void Land::setName(string newName) {
+	name = newName;
+}
+
+unsigned int Land::getLandNumber() {
+	return numberoflands;
 }
 
 Land** Land::nearTo() {//Returns the near

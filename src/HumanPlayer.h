@@ -17,7 +17,7 @@ protected:
 	void attackPrompt();
 	string generateCallToArms();
 public:
-	HumanPlayer(string namer);
+	HumanPlayer(string namer, Player* next);
 	virtual ~HumanPlayer();
 
 	void makeTurn();

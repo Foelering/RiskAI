@@ -13,7 +13,7 @@ using std::cout;
 using std::cin;
 using std::endl;
 
-HumanPlayer::HumanPlayer(string namer) : Player(namer) {
+HumanPlayer::HumanPlayer(string namer, Player* next) : Player(namer, next) {
 
 }
 
@@ -48,12 +48,6 @@ void HumanPlayer::makeTurn() {
 		char a;
 		cin >> a;
 		switch (a) {
-		case ('n'):
-				i = 0;
-				break;
-		case ('N'):
-				i = 0;
-				break;
 		case ('y'):
 				attackPrompt();
 				break;
@@ -61,6 +55,7 @@ void HumanPlayer::makeTurn() {
 				attackPrompt();
 				break;
 		default:
+				i=0;
 				break;
 		}
 	}

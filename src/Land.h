@@ -17,6 +17,7 @@ using std::string;
 class Player;
 
 class Land {
+	static unsigned int numberoflands;
 	string name;
 	int troops;
 	Player* owner;
@@ -24,9 +25,11 @@ class Land {
 	Land** confining;
 public:
 	Land(string name);
-	Land(string name, Land* list[]);
+	Land(string name, Land* next);
 	virtual ~Land();
 	string getName();
+	void setName(string newName);
+	unsigned int getLandNumber();
 	Land** nearTo();
 	bool nearTo(Land* that);
 	int putTroops(int many);
