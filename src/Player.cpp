@@ -11,20 +11,27 @@ using std::string;
 using std::cout;
 using std::endl;
 
-Player::Player(string namer, Player* next) : name(namer), land(0), ownedlands(0), troopPool(0), nextPlayer(next) {
+unsigned int Player::numberofplayers = 0;
 
+Player::Player(string namer, Player* next) : inGame(1), name(namer), land(0), ownedlands(0), troopPool(0), nextPlayer(next) {
+	++numberofplayers;
 }
 
-Player::Player() : name("Default"), land(0), ownedlands(0), troopPool(0), nextPlayer(0) {
-
+Player::Player() : inGame(1), name("Default"), land(0), ownedlands(0), troopPool(0), nextPlayer(0) {
+	++numberofplayers;
 }
 
 Player::~Player() {
-	// TODO Auto-generated destructor stub
+	--numberofplayers;
 }
 
 string Player::getName() {
 	return name;
+}
+
+
+int Player::getPlayerN() {
+	return numberofplayers;
 }
 
 void Player::attack(Land* from, Land* to) {
@@ -44,7 +51,11 @@ void Player::attack(Land* from, Land* to) {
 }
 
 int Player::obtainTroops() {
-	return troopPool += ownedlands/3;
+	troopPool += ownedlands/3;
+	if(!troopPool) {
+		++troopPool;
+	}
+	return troopPool;
 }
 
 int Player::obtainTroops(int n) {
@@ -90,7 +101,7 @@ void Player::takeLand(Land* newLand) {
 	newLand->setOwner(this);
 	cout << getName() << " has taken control of " << newLand->getName() << endl;
 
-	ownedlands++;
+	++ownedlands;
 }
 
 void Player::removeLand(Land* thisLand) {
@@ -100,8 +111,16 @@ void Player::removeLand(Land* thisLand) {
 	}
 
 	if(land==thisLand){
-		land = land->next();
-		thisLand->setNext(0);
+
+		if(land->next()){
+			land = land->next();
+			thisLand->setNext(0);
+		} else {
+			cout << getName() << " has lost all their territories and lost!" << endl;
+			inGame = 0;
+			land = 0;
+		}
+
 	} else {
 
 		Land* i;

@@ -13,13 +13,13 @@ using namespace std;
 
 unsigned int Land::numberoflands = 0;
 
-Land::Land(string name) : name(name), troops(1), owner(0), nextLand(NULL){
+Land::Land(string name) : name(name), troops(0), owner(0), nextLand(NULL){
 	confining = new Land* [15];
 	confining[0] = NULL;
 	++numberoflands;
 }
 
-Land::Land(string name, Land* asNext): name(name), troops(1), owner(0), nextLand(asNext) {
+Land::Land(string name, Land* asNext): name(name), troops(0), owner(0), nextLand(asNext) {
 	confining = new Land* [15];
 	confining[0] = NULL;
 	++numberoflands;
@@ -31,7 +31,7 @@ Land::~Land() {
 }
 
 string Land::getName() {
-	return name;
+	return name + " (" + std::to_string(troops) + " troops)";
 }
 
 void Land::setName(string newName) {
@@ -56,13 +56,14 @@ bool Land::nearTo(Land* that) {//Checks if "that" is near to this land
 
 void Land::addNear(Land* newNear) {
 	if (this==newNear) { cout << "How is it near itself? :P" << endl; return; }
-	if (nearTo(newNear)) { cout << "Already near." << endl; return; }
+	if (nearTo(newNear)) { cout << this->getName() << " is near to " << newNear->getName() << endl; return; }
 
 	int i=0;
 	while(confining[i]){
 		i++;
 	}
 	confining[i] = newNear;
+	newNear->addNear(this);
 }
 
 int Land::putTroops(int many) {

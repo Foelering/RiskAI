@@ -21,6 +21,40 @@ HumanPlayer::~HumanPlayer() {
 	// TODO Auto-generated destructor stub
 }
 
+void HumanPlayer::populateLands() {
+	putTroops(land, 1);
+	for(Land* pointer = land; pointer; pointer = pointer->next()) {
+		putTroops(pointer->next(), 1);
+		--troopPool;
+	}
+}
+
+void HumanPlayer::initialTroopSet() {
+	if(!troopPool){
+		return;
+	}
+	cout << getName() << ", tell me where do you want to put a troop?" << endl;
+	int i = 1, l=0, n=1;
+	Land* pointer;
+	for (pointer = land; pointer; pointer=pointer->next()) {
+		cout << "\t" << i << ". " << pointer->getName() << endl;
+		i++;
+	}
+	while(1){
+		cin >> l;
+		if(l<=ownedlands && l>0){
+			break;
+		}
+		cout << "Not valid!" << endl;
+	}
+	pointer = land;
+	for (i = 0; i < l-1; i++) {
+		pointer=pointer->next();
+	}
+	putTroops(pointer, 1);
+	cout << getName() << " has put a troop on " << pointer->getName() << "\n" << endl;
+}
+
 void HumanPlayer::makeTurn() {
 	cout << name << " is on. " << generateCallToArms() << endl;
 	obtainTroops();
@@ -39,8 +73,8 @@ void HumanPlayer::makeTurn() {
 		}
 		cout << "How many troops?\n";
 		cin >> n;
-		if (n > troopPool) { cout << "too many troops!" << endl; }
-		else { pointer->putTroops(n); troopPool-= n;}
+		if (n > troopPool || n<0) { cout << "Not a valid value!" << endl; }
+		else { putTroops(pointer, n); }
 	}
 	int i = 1;
 	while(i){
@@ -127,7 +161,7 @@ string HumanPlayer::generateCallToArms() {
 	case (5):
 			return "I'm counting on you!";
 	case (6):
-			return "...Hey! I thought you were dead alrerady!";
+			return "...Hey! I thought you were dead already!";
 	case (7):
 			return "I have no more cringey phrases to tell to you scoundrels";
 	case (8):
@@ -139,7 +173,7 @@ string HumanPlayer::generateCallToArms() {
 	case (11):
 			return "I used to be a player like you, then I took a die in the knee.";
 	default:
-			return "David probably fucked up.";
+			return "David probably fucked up with the random counter.";
 	}
 
 }

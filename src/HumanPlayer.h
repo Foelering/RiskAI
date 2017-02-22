@@ -21,6 +21,8 @@ public:
 	virtual ~HumanPlayer();
 
 	void makeTurn();
+	void initialTroopSet();
+	void populateLands();
 };
 
 #endif /* HUMANPLAYER_H_ */

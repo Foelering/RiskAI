@@ -15,6 +15,7 @@ using std::string;
 
 class Player {
 protected:
+	static unsigned int numberofplayers;
 	string name;
 	Land* land;
 	int ownedlands;
@@ -22,10 +23,12 @@ protected:
 	Player* nextPlayer;
 
 public:
+	bool inGame;
 	Player();
 	Player(string namer, Player* next);
 	virtual ~Player();
 	string getName();
+	int getPlayerN();
 	void attack(Land* from, Land* to);
 	int obtainTroops();
 	int obtainTroops(int n);
@@ -34,8 +37,14 @@ public:
 	void removeLand(Land* thisLand);
 	bool has(Land* thisLand);
 
+	virtual void populateLands() {}
+
 	Player* next() {
-		return nextPlayer;
+		if(nextPlayer->inGame){
+			return nextPlayer;
+		} else {
+			return nextPlayer->next();
+		}
 	}
 
 	void setNext(Player* newNext) {
@@ -48,6 +57,10 @@ public:
 
 	virtual void makeTurn() {
 		return;
+	}
+
+	virtual void initialTroopSet() {
+
 	}
 
 	bool checkWinCondition() {

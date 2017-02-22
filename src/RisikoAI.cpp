@@ -27,7 +27,7 @@ Player* generatePlayerList () {
 	int i=1;
 
 	while (i) {
-		cout << "Want to add a new player? (y/N)" << endl;
+		cout << "Want to add a new player (currently "<< firstPlayer->getPlayerN() << ")? (y/N)" << endl;
 		char a;
 		cin >> a;
 
@@ -46,7 +46,7 @@ Player* generatePlayerList () {
 				cout << "\t" << nextinQueue->getName() << "\n";
 			}
 			char q;
-			cout << "End? " << endl;
+			cout << "End? (y/N)" << endl;
 			cin >> q;
 			if (q == 'y') {  i=0; }
 			break;
@@ -245,6 +245,41 @@ int main() {
 	Player* activePlayer = generatePlayerList();
 
 	distributeLands(activePlayer, generateLands());
+
+	int troopCounter;
+	switch(activePlayer->getPlayerN()){
+	case 2:
+		troopCounter=40;
+		break;
+	case 3:
+		troopCounter=35;
+		break;
+	case 4:
+		troopCounter=30;
+		break;
+	case 5:
+		troopCounter=25;
+		break;
+	case 6:
+		troopCounter=20;
+		break;
+	default:
+		troopCounter=15;
+		break;
+	}
+
+	Player* firstPlayer = activePlayer;
+
+	do {
+		activePlayer->obtainTroops(troopCounter);
+		activePlayer->populateLands();
+		activePlayer = activePlayer->next();
+	} while (activePlayer!=firstPlayer);
+
+	do {
+		activePlayer->initialTroopSet();
+		activePlayer = activePlayer->next();
+	} while(--troopCounter);
 
 	while (1) {
 		activePlayer->makeTurn();
