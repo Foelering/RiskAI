@@ -11,7 +11,7 @@ using std::string;
 using std::cout;
 using std::endl;
 
-unsigned int Player::numberofplayers = 0;
+int Player::numberofplayers = 0;
 
 Player::Player(string namer, Player* next) : inGame(1), name(namer), land(0), ownedlands(0), troopPool(0), nextPlayer(next) {
 	++numberofplayers;

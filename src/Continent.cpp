@@ -7,7 +7,8 @@
 
 #include "Continent.h"
 
-
+using std::cout;
+using std::endl;
 
 Continent::Continent(string name, Player** playerList, int playerNumber, int landNumber, int givenTroops) : name(name), playerNumber(playerNumber), totalLands(landNumber), playerArray(playerList), givenTroops(givenTroops){
 	ownershipArray = new int[playerNumber];
@@ -18,7 +19,10 @@ Continent::~Continent(){
 }
 
 int Continent::find(Player* he) {
-	for(long i=0; i<playerNumber; ++i) {
+	cout << he << endl;
+	cout << playerNumber << endl;
+	for(int i=0; i<playerNumber; ++i) {
+		cout << playerArray[i] << endl;
 		if (he==playerArray[i]){
 			return i;
 		}

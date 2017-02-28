@@ -25,7 +25,8 @@ Player* generatePlayerList () {
 	cout << "Second (human) player name: ";
 	cin >> name; cout << endl;
 	firstPlayer->setNext(new (firstPlayer+1) HumanPlayer(name, 0));
-	Player* nextinQueue = firstPlayer->next();
+	Player* nextinQueue = firstPlayer+1;
+	nextinQueue->setNext(firstPlayer);
 	int i=4;
 
 	while (i) {
@@ -63,14 +64,14 @@ Player* generatePlayerList () {
 
 
 Land* generateLands(Player** player, Continent* continents) {
-	int playerNumber = player[0]->getPlayerN();
+	int pNumber = player[0]->getPlayerN();
 	continents = (Continent*) ::operator new (sizeof(Continent)*6);
-	new (&continents[0]) Continent("Oceania", player, playerNumber, 4, 2);
-	new (&continents[1]) Continent("Asia", player, playerNumber, 15, 7);
-	new (&continents[2]) Continent("Europe", player, playerNumber, 7, 5);
-	new (&continents[3]) Continent("Africa", player, playerNumber, 6, 3);
-	new (&continents[4]) Continent("North America", player, playerNumber, 6, 5);
-	new (&continents[5]) Continent("South America", player, playerNumber, 4, 2);
+	new (&continents[0]) Continent("Oceania", player, pNumber, 4, 2);
+	new (&continents[1]) Continent("Asia", player, pNumber, 15, 7);
+	new (&continents[2]) Continent("Europe", player, pNumber, 7, 5);
+	new (&continents[3]) Continent("Africa", player, pNumber, 6, 3);
+	new (&continents[4]) Continent("North America", player, pNumber, 6, 5);
+	new (&continents[5]) Continent("South America", player, pNumber, 4, 2);
 
 	cout << "Generating map..." << endl;
 	Land* landlist = (Land*) ::operator new (sizeof(Land)*42);
@@ -222,10 +223,10 @@ void distributeLands (Player* activePlayer, Land* list) {
 		
 		if(r){
 			while(--r) {
-				//cout << r << " " << bookmark->getName() << endl;
+				cout << r << " " << bookmark->getName() << endl;
 				bookmark = bookmark->next();
 			}
-			//cout << "0 " << bookmark->getName()
+			cout << "0 " << bookmark->getName();
 			out = bookmark->next();
 			bookmark->setNext(out->next());
 			
@@ -243,7 +244,7 @@ void distributeLands (Player* activePlayer, Land* list) {
 		rotator = rotator->next();
 		cout << rotator->getName() << endl;
 	}
-	
+	cout << "Arrived here!" << endl;
 	rotator->takeLand(list);
 
 	return;
@@ -261,10 +262,13 @@ int main() {
 	Player* playerArray[playerNumber];
 	for (int i = 0; i < playerNumber; ++i) {
 		playerArray[i] = activePlayer+i;
+		cout << playerArray[i] << endl;
 	}
 
 
 	distributeLands(activePlayer, generateLands(playerArray, continents));
+
+	cout << "Calculating initial troop count..." << endl;
 
 	int troopCounter;
 	switch(playerNumber){
@@ -280,19 +284,18 @@ int main() {
 	case 5:
 		troopCounter=25;
 		break;
-	case 6:
+	default:
 		troopCounter=20;
 		break;
-	default:
-		troopCounter=15;
-		break;
 	}
-
+	cout << "Giving " << troopCounter << " troops each." << endl;
 	Player* firstPlayer = activePlayer;
 
 	do {
 		activePlayer->obtainTroops(troopCounter);
+		cout << "Hello!" << endl;
 		activePlayer->populateLands();
+		cout << activePlayer->getName() << " has populated the lands!" << endl;
 		activePlayer = activePlayer->next();
 	} while (activePlayer!=firstPlayer);
 
@@ -301,9 +304,12 @@ int main() {
 		activePlayer = activePlayer->next();
 	} while(--troopCounter);
 
+	cout << "Starting game!" <<endl;
+
 //	MAIN GAME ENGINE!!!
 	while (1) {
 		for(int i = 0; i<6; ++i){
+			cout << activePlayer << " " << playerArray[0] << playerArray[1] << endl;
 			activePlayer->obtainTroops(continents[i].troops(activePlayer));
 		}
 		activePlayer->makeTurn();

@@ -15,7 +15,7 @@ using std::string;
 
 class Player {
 protected:
-	static unsigned int numberofplayers;
+	static int numberofplayers;
 	string name;
 	Land* land;
 	int ownedlands;
@@ -37,7 +37,7 @@ public:
 	void removeLand(Land* thisLand);
 	bool has(Land* thisLand);
 
-	virtual void populateLands() {}
+	void populateLands() {}
 
 	Player* next() {
 		if(nextPlayer->inGame){
