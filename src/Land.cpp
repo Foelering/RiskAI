@@ -13,13 +13,13 @@ using namespace std;
 
 unsigned int Land::numberoflands = 0;
 
-Land::Land(string name) : name(name), troops(0), owner(0), nextLand(NULL){
+Land::Land(string name, Continent* continent) : name(name), troops(0), owner(0), continent(continent), nextLand(NULL){
 	confining = new Land* [15];
 	confining[0] = NULL;
 	++numberoflands;
 }
 
-Land::Land(string name, Land* asNext): name(name), troops(0), owner(0), nextLand(asNext) {
+Land::Land(string name, Land* asNext, Continent* continent): name(name), troops(0), owner(0), continent(continent), nextLand(asNext) {
 	confining = new Land* [15];
 	confining[0] = NULL;
 	++numberoflands;
@@ -166,6 +166,7 @@ Player* Land::getOwner() {
 	return owner;
 }
 void Land::setOwner(Player* newOwner) {
+	continent->giveLand(owner, newOwner);
 	owner = newOwner;
 }
 

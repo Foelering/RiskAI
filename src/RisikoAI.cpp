@@ -3,7 +3,7 @@
 // Author      : David Chiappini
 // Version     :
 // Copyright   : GPL
-// Description : Hello World in C++, Ansi-style
+// Description : Risk implementation in C++
 //============================================================================
 
 #include <iostream>
@@ -12,19 +12,21 @@
 #include "Player.h"
 #include "HumanPlayer.h"
 #include "Land.h"
+#include "Continent.h"
 
 using namespace std;
 
 Player* generatePlayerList () {
 	string name;
+	Player* firstPlayer = (Player*) ::operator new (sizeof(Player)*6);
 	cout << "First (human) player name: ";
 	cin >> name; cout << endl;
-	Player* firstPlayer = new HumanPlayer(name, 0);
+	new (firstPlayer) HumanPlayer(name, 0);
 	cout << "Second (human) player name: ";
 	cin >> name; cout << endl;
-	firstPlayer->setNext(new HumanPlayer(name, firstPlayer));
+	firstPlayer->setNext(new (firstPlayer+1) HumanPlayer(name, 0));
 	Player* nextinQueue = firstPlayer->next();
-	int i=1;
+	int i=4;
 
 	while (i) {
 		cout << "Want to add a new player (currently "<< firstPlayer->getPlayerN() << ")? (y/N)" << endl;
@@ -35,15 +37,15 @@ Player* generatePlayerList () {
 		case 'y':
 			cout << "Name: ";
 			cin >> name; cout << endl;
-			nextinQueue->setNext(new HumanPlayer(name, firstPlayer));
+			nextinQueue->setNext(new (firstPlayer+6-i) HumanPlayer(name, firstPlayer));
 			cout << nextinQueue->getName() << nextinQueue->next()->getName()<<endl;
 			nextinQueue = nextinQueue->next();
+			--i;
 			break;
 		default:
 			cout << "Configuration is:" << endl;
-			cout << "\t" << firstPlayer->getName() << "\n";
-			for(nextinQueue = firstPlayer->next(); nextinQueue!=firstPlayer; nextinQueue = nextinQueue->next()){
-				cout << "\t" << nextinQueue->getName() << "\n";
+			for(int i = 0; i<firstPlayer->getPlayerN(); ++i){
+				cout << "\t" << firstPlayer[i].getName() << "\n";
 			}
 			char q;
 			cout << "End? (y/N)" << endl;
@@ -58,51 +60,62 @@ Player* generatePlayerList () {
 	return firstPlayer;
 }
 
-Land* generateLands() {
+
+
+Land* generateLands(Player** player, Continent* continents) {
+	int playerNumber = player[0]->getPlayerN();
+	continents = (Continent*) ::operator new (sizeof(Continent)*6);
+	new (&continents[0]) Continent("Oceania", player, playerNumber, 4, 2);
+	new (&continents[1]) Continent("Asia", player, playerNumber, 15, 7);
+	new (&continents[2]) Continent("Europe", player, playerNumber, 7, 5);
+	new (&continents[3]) Continent("Africa", player, playerNumber, 6, 3);
+	new (&continents[4]) Continent("North America", player, playerNumber, 6, 5);
+	new (&continents[5]) Continent("South America", player, playerNumber, 4, 2);
+
 	cout << "Generating map..." << endl;
 	Land* landlist = (Land*) ::operator new (sizeof(Land)*42);
-	new (landlist) Land("Eastern Australia");
-	new (landlist+1) Land("Western Australia");
-	new (landlist+2) Land("New Guinea");
-	new (landlist+3) Land("Indonesia");
-	new (landlist+4) Land("Siam");
-	new (landlist+5) Land("India");
-	new (landlist+6) Land("China");
-	new (landlist+7) Land("Afghanistan");
-	new (landlist+8) Land("Ural");
-	new (landlist+9) Land("Siberia");
-	new (landlist+10) Land("Yakutsk");
-	new (landlist+11) Land("Irkutsk");
-	new (landlist+12) Land("Mongolia");
-	new (landlist+13) Land("Japan");
-	new (landlist+14) Land("Kamchatka");
-	new (landlist+15) Land("Alaska");
-	new (landlist+16) Land("North West Territory");
-	new (landlist+17) Land("Greenland");
-	new (landlist+18) Land("Quebec");
-	new (landlist+19) Land("Ontario");
-	new (landlist+20) Land("Alberta");
-	new (landlist+21) Land("Western United States");
-	new (landlist+22) Land("Eastern United States");
-	new (landlist+23) Land("Central America");
-	new (landlist+24) Land("Venezuela");
-	new (landlist+25) Land("Peru");
-	new (landlist+26) Land("Argentina");
-	new (landlist+27) Land("Brasil");
-	new (landlist+28) Land("North Africa");
-	new (landlist+29) Land("Congo");
-	new (landlist+30) Land("South Africa");
-	new (landlist+31) Land("Madagascar");
-	new (landlist+32) Land("East Africa");
-	new (landlist+33) Land("Egypt");
-	new (landlist+34) Land("Middle East");
-	new (landlist+35) Land("Ukraine");
-	new (landlist+36) Land("Scandinavia");
-	new (landlist+37) Land("Iceland");
-	new (landlist+38) Land("Great Britain");
-	new (landlist+39) Land("Western Europe");
-	new (landlist+40) Land("Southern Europe");
-	new (landlist+41) Land("Northern Europe");
+	new (landlist) Land("Eastern Australia", &continents[0]);
+	new (landlist+1) Land("Western Australia", &continents[0]);
+	new (landlist+2) Land("New Guinea", &continents[0]);
+	new (landlist+3) Land("Indonesia", &continents[0]);
+	new (landlist+4) Land("Siam", &continents[1]);
+	new (landlist+5) Land("India", &continents[1]);
+	new (landlist+6) Land("China", &continents[1]);
+	new (landlist+7) Land("Afghanistan", &continents[1]);
+	new (landlist+8) Land("Ural", &continents[1]);
+	new (landlist+9) Land("Siberia", &continents[1]);
+	new (landlist+10) Land("Yakutsk", &continents[1]);
+	new (landlist+11) Land("Irkutsk", &continents[1]);
+	new (landlist+12) Land("Mongolia", &continents[1]);
+	new (landlist+13) Land("Japan", &continents[1]);
+	new (landlist+14) Land("Kamchatka", &continents[1]);
+	new (landlist+15) Land("Alaska", &continents[4]);
+	new (landlist+16) Land("North West Territory", &continents[4]);
+	new (landlist+17) Land("Greenland", &continents[4]);
+	new (landlist+18) Land("Quebec", &continents[4]);
+	new (landlist+19) Land("Ontario", &continents[4]);
+	new (landlist+20) Land("Alberta", &continents[4]);
+	new (landlist+21) Land("Western United States", &continents[4]);
+	new (landlist+22) Land("Eastern United States", &continents[4]);
+	new (landlist+23) Land("Central America", &continents[4]);
+	new (landlist+24) Land("Venezuela", &continents[5]);
+	new (landlist+25) Land("Peru", &continents[5]);
+	new (landlist+26) Land("Argentina", &continents[5]);
+	new (landlist+27) Land("Brasil", &continents[5]);
+	new (landlist+28) Land("North Africa", &continents[3]);
+	new (landlist+29) Land("Congo", &continents[3]);
+	new (landlist+30) Land("South Africa", &continents[3]);
+	new (landlist+31) Land("Madagascar", &continents[3]);
+	new (landlist+32) Land("East Africa", &continents[3]);
+	new (landlist+33) Land("Egypt", &continents[3]);
+	new (landlist+34) Land("Middle East", &continents[1]);
+	new (landlist+35) Land("Ukraine", &continents[2]);
+	new (landlist+36) Land("Scandinavia", &continents[2]);
+	new (landlist+37) Land("Iceland", &continents[2]);
+	new (landlist+38) Land("Great Britain", &continents[2]);
+	new (landlist+39) Land("Western Europe", &continents[2]);
+	new (landlist+40) Land("Southern Europe", &continents[2]);
+	new (landlist+41) Land("Northern Europe", &continents[2]);
 	(landlist+1)->addNear(landlist);
 	(landlist+2)->addNear(landlist);
 	(landlist+2)->addNear(landlist+1);
@@ -243,11 +256,18 @@ int main() {
 	}
 
 	Player* activePlayer = generatePlayerList();
+	int playerNumber = activePlayer->getPlayerN();
+	Continent* continents;
+	Player* playerArray[playerNumber];
+	for (int i = 0; i < playerNumber; ++i) {
+		playerArray[i] = activePlayer+i;
+	}
 
-	distributeLands(activePlayer, generateLands());
+
+	distributeLands(activePlayer, generateLands(playerArray, continents));
 
 	int troopCounter;
-	switch(activePlayer->getPlayerN()){
+	switch(playerNumber){
 	case 2:
 		troopCounter=40;
 		break;
@@ -281,7 +301,11 @@ int main() {
 		activePlayer = activePlayer->next();
 	} while(--troopCounter);
 
+//	MAIN GAME ENGINE!!!
 	while (1) {
+		for(int i = 0; i<6; ++i){
+			activePlayer->obtainTroops(continents[i].troops(activePlayer));
+		}
 		activePlayer->makeTurn();
 		if(activePlayer->checkWinCondition()) {
 			break;

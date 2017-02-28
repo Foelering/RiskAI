@@ -59,7 +59,7 @@ int Player::obtainTroops() {
 }
 
 int Player::obtainTroops(int n) {
-	return troopPool = n;
+	return troopPool += n;
 }
 
 int Player::putTroops(Land* land, int n) {

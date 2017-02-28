@@ -11,21 +11,24 @@
 #include <cstdlib>
 #include <ctime>
 #include <iostream>
+#include "Continent.h"
 
 using std::string;
 
 class Player;
+class Continent;
 
 class Land {
 	static unsigned int numberoflands;
 	string name;
 	int troops;
 	Player* owner;
+	Continent* continent;
 	Land* nextLand;
 	Land** confining;
 public:
-	Land(string name);
-	Land(string name, Land* next);
+	Land(string name, Continent* continent);
+	Land(string name, Land* next, Continent* continent);
 	virtual ~Land();
 	string getName();
 	void setName(string newName);
