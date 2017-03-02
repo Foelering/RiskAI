@@ -14,7 +14,8 @@ using std::endl;
 int Player::numberofplayers = 0;
 
 Player::Player(string namer, Player* next) : inGame(1), name(namer), land(0), ownedlands(0), troopPool(0), nextPlayer(next) {
-	++numberofplayers;
+	cout << ++numberofplayers << endl;
+
 }
 
 Player::Player() : inGame(1), name("Default"), land(0), ownedlands(0), troopPool(0), nextPlayer(0) {

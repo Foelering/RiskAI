@@ -56,7 +56,7 @@ bool Land::nearTo(Land* that) {//Checks if "that" is near to this land
 
 void Land::addNear(Land* newNear) {
 	if (this==newNear) { cout << "How is it near itself? :P" << endl; return; }
-	if (nearTo(newNear)) { cout << this->getName() << " is near to " << newNear->getName() << endl; return; }
+	if (nearTo(newNear)) { return; }
 
 	int i=0;
 	while(confining[i]){

@@ -208,25 +208,19 @@ void distributeLands (Player* activePlayer, Land* list) {
 	Player* rotator = activePlayer;
 	cout << "distributing lands..." << endl;
 	int n = list->getLandNumber();
-	cout << n << endl;
 	int r;
 	Land* bookmark;
 	Land* out;
 
 	for ( ; n>1; --n ) {
-		cout << "counter: " << n << endl;
 		bookmark = list;
 		
 		r = rand()%n;
 		
-		cout << r << endl;
-		
 		if(r){
 			while(--r) {
-				cout << r << " " << bookmark->getName() << endl;
 				bookmark = bookmark->next();
 			}
-			cout << "0 " << bookmark->getName();
 			out = bookmark->next();
 			bookmark->setNext(out->next());
 			
@@ -234,17 +228,13 @@ void distributeLands (Player* activePlayer, Land* list) {
 			
 			out = list;
 			list = list->next();
-			cout << list->getName() << endl;
 			
 		}
 		
-		cout << out-> getName() << endl;
 		
 		rotator->takeLand(out);
 		rotator = rotator->next();
-		cout << rotator->getName() << endl;
 	}
-	cout << "Arrived here!" << endl;
 	rotator->takeLand(list);
 
 	return;
@@ -262,9 +252,9 @@ int main() {
 	Player* playerArray[playerNumber];
 	for (int i = 0; i < playerNumber; ++i) {
 		playerArray[i] = activePlayer+i;
-		cout << playerArray[i] << endl;
 	}
 
+	cout << "!!!JUST BEFORE DISTR. LANDS " << playerArray[0]->getPlayerN() << endl;
 
 	distributeLands(activePlayer, generateLands(playerArray, continents));
 
@@ -291,25 +281,25 @@ int main() {
 	cout << "Giving " << troopCounter << " troops each." << endl;
 	Player* firstPlayer = activePlayer;
 
-	do {
-		activePlayer->obtainTroops(troopCounter);
-		cout << "Hello!" << endl;
-		activePlayer->populateLands();
-		cout << activePlayer->getName() << " has populated the lands!" << endl;
-		activePlayer = activePlayer->next();
-	} while (activePlayer!=firstPlayer);
-
-	do {
-		activePlayer->initialTroopSet();
-		activePlayer = activePlayer->next();
-	} while(--troopCounter);
+//	do {
+//		activePlayer->obtainTroops(troopCounter);
+//		cout << "Hello!" << endl;
+//		activePlayer->populateLands();
+//		cout << activePlayer->getName() << " has populated the lands!" << endl;
+//		activePlayer = activePlayer->next();
+//	} while (activePlayer!=firstPlayer);
+//
+//	do {
+//		activePlayer->initialTroopSet();
+//		activePlayer = activePlayer->next();
+//	} while(--troopCounter);
 
 	cout << "Starting game!" <<endl;
 
 //	MAIN GAME ENGINE!!!
 	while (1) {
 		for(int i = 0; i<6; ++i){
-			cout << activePlayer << " " << playerArray[0] << playerArray[1] << endl;
+			cout << " " << activePlayer << " " << playerArray[0] << endl;
 			activePlayer->obtainTroops(continents[i].troops(activePlayer));
 		}
 		activePlayer->makeTurn();
