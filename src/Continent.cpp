@@ -26,7 +26,6 @@ Continent::~Continent(){
 
 int Continent::find(Player* he) {
 	for(int i=0; i<playerNumber; ++i) {
-		cout << playerArray[i] << endl;
 		if (he==playerArray[i]){
 			return i;
 		}
@@ -49,8 +48,6 @@ void Continent::giveLand(Player* from, Player* to) {
 int Continent::troops(Player* requester){
 	int index = find(requester);
 	int ownedlands = *(ownershipArray+index);
-
-	cout << ownedlands << totalLands << endl;
 	if(ownedlands==totalLands){
 		return givenTroops;
 	} else {
