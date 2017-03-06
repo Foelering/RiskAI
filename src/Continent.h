@@ -16,6 +16,7 @@ class Player;
 class Land;
 
 class Continent {
+protected:
 	string name;
 	int totalLands;
 	Player** playerArray;
@@ -29,6 +30,7 @@ public:
 	string getName();
 	void giveLand(Player* from, Player* to);
 	int troops(Player* requester);
+	int getPlayerNumber();
 };
 
 #endif /* CONTINENT_H_ */

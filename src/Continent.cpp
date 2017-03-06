@@ -10,8 +10,14 @@
 using std::cout;
 using std::endl;
 
-Continent::Continent(string name, Player** playerList, int playerNumber, int landNumber, int givenTroops) : name(name), playerNumber(playerNumber), totalLands(landNumber), playerArray(playerList), givenTroops(givenTroops){
-	ownershipArray = new int[playerNumber];
+Continent::Continent(string name, Player** playerList, int players, int landNumber, int givenTroops) : name(name), playerNumber(players), totalLands(landNumber), playerArray(playerList), givenTroops(givenTroops){
+	ownershipArray = new int[playerNumber+1];
+	for(int i=0; i<=playerNumber; ++i){
+		ownershipArray[i] = 0;
+	}
+	for(int i=0; i< playerNumber; ++i){
+		cout << playerArray[i] << endl;
+	}
 }
 
 Continent::~Continent(){
@@ -19,8 +25,6 @@ Continent::~Continent(){
 }
 
 int Continent::find(Player* he) {
-	cout << he << endl;
-	cout << playerNumber << endl;
 	for(int i=0; i<playerNumber; ++i) {
 		cout << playerArray[i] << endl;
 		if (he==playerArray[i]){
@@ -28,7 +32,7 @@ int Continent::find(Player* he) {
 		}
 	}
 	std::cout << "Error: could not find player" << std::endl;
-	return -1;
+	return playerNumber;
 }
 
 string Continent::getName(){
@@ -43,9 +47,15 @@ void Continent::giveLand(Player* from, Player* to) {
 }
 
 int Continent::troops(Player* requester){
-	if(ownershipArray[find(requester)]==totalLands){
+	int index = find(requester);
+	int ownedlands = *(ownershipArray+index);
+
+	cout << ownedlands << totalLands << endl;
+	if(ownedlands==totalLands){
 		return givenTroops;
 	} else {
 		return 0;
 	}
 }
+
+int Continent::getPlayerNumber(){ return playerNumber; }

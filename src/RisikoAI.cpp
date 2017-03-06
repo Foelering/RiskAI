@@ -65,13 +65,15 @@ Player* generatePlayerList () {
 
 Land* generateLands(Player** player, Continent* continents) {
 	int pNumber = player[0]->getPlayerN();
-	continents = (Continent*) ::operator new (sizeof(Continent)*6);
-	new (&continents[0]) Continent("Oceania", player, pNumber, 4, 2);
-	new (&continents[1]) Continent("Asia", player, pNumber, 15, 7);
-	new (&continents[2]) Continent("Europe", player, pNumber, 7, 5);
-	new (&continents[3]) Continent("Africa", player, pNumber, 6, 3);
-	new (&continents[4]) Continent("North America", player, pNumber, 6, 5);
-	new (&continents[5]) Continent("South America", player, pNumber, 4, 2);
+	cout << pNumber << endl;
+	new (continents) Continent("Oceania", player, pNumber, 4, 2);
+	new (continents+1) Continent("Asia", player, pNumber, 15, 7);
+	new (continents+2) Continent("Europe", player, pNumber, 7, 5);
+	new (continents+3) Continent("Africa", player, pNumber, 6, 3);
+	new (continents+4) Continent("North America", player, pNumber, 6, 5);
+	new (continents+5) Continent("South America", player, pNumber, 4, 2);
+
+	cout << continents[0].getPlayerNumber() << endl;
 
 	cout << "Generating map..." << endl;
 	Land* landlist = (Land*) ::operator new (sizeof(Land)*42);
@@ -248,15 +250,18 @@ int main() {
 
 	Player* activePlayer = generatePlayerList();
 	int playerNumber = activePlayer->getPlayerN();
-	Continent* continents;
+	Continent* continents = (Continent*) ::operator new (sizeof(Continent)*6);
 	Player* playerArray[playerNumber];
 	for (int i = 0; i < playerNumber; ++i) {
 		playerArray[i] = activePlayer+i;
+		cout << playerArray[i] << endl;
 	}
 
 	cout << "!!!JUST BEFORE DISTR. LANDS " << playerArray[0]->getPlayerN() << endl;
 
 	distributeLands(activePlayer, generateLands(playerArray, continents));
+
+	cout << continents[0].getName() << endl;
 
 	cout << "Calculating initial troop count..." << endl;
 
@@ -281,31 +286,34 @@ int main() {
 	cout << "Giving " << troopCounter << " troops each." << endl;
 	Player* firstPlayer = activePlayer;
 
-//	do {
-//		activePlayer->obtainTroops(troopCounter);
-//		cout << "Hello!" << endl;
-//		activePlayer->populateLands();
-//		cout << activePlayer->getName() << " has populated the lands!" << endl;
-//		activePlayer = activePlayer->next();
-//	} while (activePlayer!=firstPlayer);
-//
-//	do {
-//		activePlayer->initialTroopSet();
-//		activePlayer = activePlayer->next();
-//	} while(--troopCounter);
+	do {
+		activePlayer->obtainTroops(troopCounter);
+		cout << "Hello!" << endl;
+		activePlayer->populateLands();
+		cout << activePlayer->getName() << " has populated the lands!" << endl;
+		activePlayer = activePlayer->next();
+	} while (activePlayer!=firstPlayer);
+
+	do {
+		activePlayer->initialTroopSet();
+		activePlayer = activePlayer->next();
+	} while(--troopCounter);
 
 	cout << "Starting game!" <<endl;
 
 //	MAIN GAME ENGINE!!!
 	while (1) {
-		for(int i = 0; i<6; ++i){
-			cout << " " << activePlayer << " " << playerArray[0] << endl;
-			activePlayer->obtainTroops(continents[i].troops(activePlayer));
-		}
-		activePlayer->makeTurn();
+
 		if(activePlayer->checkWinCondition()) {
 			break;
 		}
+		cout << continents[0].getPlayerNumber() << endl;
+		cout << continents[0].troops(firstPlayer) << endl;
+		for(int i = 0; i<6; ++i){
+			activePlayer->obtainTroops(continents[i].troops(activePlayer));
+			cout << continents[i].getName() << " " << activePlayer->getName() << endl;
+		}
+		activePlayer->makeTurn();
 		activePlayer = activePlayer->next();
 	}
 

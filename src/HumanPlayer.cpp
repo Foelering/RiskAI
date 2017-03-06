@@ -163,7 +163,7 @@ string HumanPlayer::generateCallToArms() {
 	case (6):
 			return "...Hey! I thought you were dead already!";
 	case (7):
-			return "I have no more cringey phrases to tell to you scoundrels";
+			return "I have no more cringey phrases to tell to you scoundrels...";
 	case (8):
 			return "C'mon beat them! I need to prepare dinner!";
 	case (9):
