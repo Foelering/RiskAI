@@ -82,7 +82,9 @@ void Player::takeLand(Land* newLand) {
 		return;
 	}
 	
-	newLand->setNext(0);
+	if (newLand->getOwner()) {
+		newLand->getOwner()->removeLand(newLand);
+	}
 
 	if (land==0) {
 		land = newLand;
@@ -94,11 +96,8 @@ void Player::takeLand(Land* newLand) {
 		pointer->setNext(newLand);
 	}
 
-	if (newLand->getOwner()) {
-		newLand->getOwner()->removeLand(newLand);
-	}
-
 	newLand->setOwner(this);
+	newLand->setNext(0);
 	cout << getName() << " has taken control of " << newLand->getName() << endl;
 
 	++ownedlands;

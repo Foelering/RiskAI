@@ -93,6 +93,7 @@ void HumanPlayer::makeTurn() {
 				break;
 		}
 	}
+	movePrompt();
 }
 
 void HumanPlayer::attackPrompt() {//literally an attack prompt. I know this is messy, if you find a way to fix, tell me!
@@ -136,6 +137,77 @@ void HumanPlayer::attackPrompt() {//literally an attack prompt. I know this is m
 
 		if (d<i+1 && d > 0) {
 			attack(attacker, confiners[d-1]);
+			if(has(confiners[d-1])){
+				movePrompt(attacker, confiners[d-1]);
+			}
+			return;
+		} else if (d == 0) {
+			break;
+		} else {
+			cout << "You put an invalid number, you naughty boy!" << endl;
+		}
+	}
+
+}
+
+void HumanPlayer::movePrompt(Land* from, Land* to){
+	while (1){
+		int a;
+		cout << "How many troops do you want to move? ( max " << from->putTroops(0)-1 << ")" <<endl;
+		cin >> a;
+		if (a<0 || a>=from->putTroops(0)){
+			cout << "Not a valid number!" << endl;
+		} else {
+			from->putTroops(-a);
+			to->putTroops(a);
+			return;
+		}
+	}
+}
+
+void HumanPlayer::movePrompt(){
+	cout << "Which land you own do you want to move troops from?" << endl;
+	int i=1, a = 0, d = 0;
+	for(Land* pointer = land; pointer; pointer = pointer->next()) {
+		cout << i << ". " << pointer->getName() << endl;
+		i++;
+	}
+	while (1) {
+		cout << "Land ( 0 to exit): ";
+		cin >> a;
+		cout << endl;
+		if (!a){
+			cout << "Exit";
+			return;
+		} else if (a >= i) {
+			cout << "Not a valid number!" << endl;
+		} else {
+			break;
+		}
+	}
+	Land* from;
+	for (from = land; a-1; from = from->next()) {
+		a--;
+	}
+	cout << "Choose where to attack!" << endl;
+	Land** confiners = from->nearTo();
+
+	for (i=0; confiners[i]; i++) {
+		if(!has(confiners[i])){
+			cout << i+1 << ". " << confiners[i]->getName() << endl;
+		}
+	}
+
+	while(1){
+		cout << "Land: (0 to exit)";
+		cin >> d;
+		cout << endl;
+
+		if (d<i+1 && d > 0) {
+			movePrompt(from, confiners[d-1]);
+			if(has(confiners[d-1])){
+				movePrompt(from, confiners[d-1]);
+			}
 			return;
 		} else if (d == 0) {
 			return;
@@ -143,7 +215,6 @@ void HumanPlayer::attackPrompt() {//literally an attack prompt. I know this is m
 			cout << "You put an invalid number, you naughty boy!" << endl;
 		}
 	}
-
 }
 
 string HumanPlayer::generateCallToArms() {

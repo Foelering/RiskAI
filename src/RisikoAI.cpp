@@ -302,9 +302,9 @@ int main() {
 		if(activePlayer->checkWinCondition()) {
 			break;
 		}
+
 		for(int i = 0; i<6; ++i){
 			activePlayer->obtainTroops(continents[i].troops(activePlayer));
-			cout << continents[i].getName() << " " << activePlayer->getName() << endl;
 		}
 		activePlayer->makeTurn();
 		activePlayer = activePlayer->next();

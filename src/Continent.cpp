@@ -49,6 +49,7 @@ int Continent::troops(Player* requester){
 	int index = find(requester);
 	int ownedlands = *(ownershipArray+index);
 	if(ownedlands==totalLands){
+		cout << "Player has obtained " << givenTroops << " troops for having " << name << "!" << endl;
 		return givenTroops;
 	} else {
 		return 0;

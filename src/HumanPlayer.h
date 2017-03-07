@@ -16,6 +16,8 @@ class HumanPlayer: public Player {
 protected:
 	void attackPrompt();
 	string generateCallToArms();
+	void movePrompt(Land* from, Land* to);
+	void movePrompt();
 public:
 	HumanPlayer(string namer, Player* next);
 	virtual ~HumanPlayer();
