@@ -257,11 +257,7 @@ int main() {
 		cout << playerArray[i] << endl;
 	}
 
-	cout << "!!!JUST BEFORE DISTR. LANDS " << playerArray[0]->getPlayerN() << endl;
-
 	distributeLands(activePlayer, generateLands(playerArray, continents));
-
-	cout << continents[0].getName() << endl;
 
 	cout << "Calculating initial troop count..." << endl;
 
@@ -288,7 +284,6 @@ int main() {
 
 	do {
 		activePlayer->obtainTroops(troopCounter);
-		cout << "Hello!" << endl;
 		activePlayer->populateLands();
 		cout << activePlayer->getName() << " has populated the lands!" << endl;
 		activePlayer = activePlayer->next();
@@ -307,8 +302,6 @@ int main() {
 		if(activePlayer->checkWinCondition()) {
 			break;
 		}
-		cout << continents[0].getPlayerNumber() << endl;
-		cout << continents[0].troops(firstPlayer) << endl;
 		for(int i = 0; i<6; ++i){
 			activePlayer->obtainTroops(continents[i].troops(activePlayer));
 			cout << continents[i].getName() << " " << activePlayer->getName() << endl;

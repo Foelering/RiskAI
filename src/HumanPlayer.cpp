@@ -124,7 +124,9 @@ void HumanPlayer::attackPrompt() {//literally an attack prompt. I know this is m
 	Land** confiners = attacker->nearTo();
 
 	for (i=0; confiners[i]; i++) {
-		cout << i+1 << ". " << confiners[i]->getName() << endl;
+		if(!has(confiners[i])){
+			cout << i+1 << ". " << confiners[i]->getName() << endl;
+		}
 	}
 
 	while(1){

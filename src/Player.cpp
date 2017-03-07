@@ -41,12 +41,11 @@ void Player::attack(Land* from, Land* to) {
 		cout << "Player " << name << " doesn't own " << from->getName() << "." << endl;
 		cout << "Can't attack." << endl;
 		return;
+	}else if(has(to)){
+		cout << "Can't attack your own land!" << endl;
 	}
 	cout << name << " is attacking " << to->getName() << " from " << from->getName() << "!" << endl;
-	from->attack(to);
-	cout << from->getName() << " now has " << from->putTroops(0) << " troops. " << to->getName() << " has " << to->putTroops(0) << "." << endl;
-	if(!to->putTroops(0)) {
-		cout << name << " is taking " << to->getName() << " as its own!" << endl;;
+	if(!from->attack(to)) {
 		takeLand(to);
 	}
 }
@@ -141,7 +140,7 @@ bool Player::has(Land* thisLand) {
 	Land* i=land;
 	int t=0;
 	while(i){
-		t = (i==thisLand);
+		t += (i==thisLand);
 		i = i->next();
 	}
 	return t;
